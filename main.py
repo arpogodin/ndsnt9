@@ -20,8 +20,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
     await update.message.reply_html(
-        rf"""Здравствуйте,  {user.mention_html()}! \n Здесь вы можете написать администрации СНТ9 по
-        любому интересующему Вас вопросу. Ответ будет дан в личных сообщениях в течении суток. (пн-пт с 9 до 18)""",
+        rf"""Здравствуйте,  {user.mention_html()}! Здесь вы можете написать администрации СНТ9 по любому интересующему
+        Вас вопросу. Ответ будет дан в личных сообщениях в течении суток. (пн-пт с 9 до 18)""",
         reply_markup=ForceReply(selective=True),
     )
 
@@ -32,6 +32,15 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Echo the user message."""
+    await update.message.forward(chat_id="-1002465099839")
+    await update.message.reply_html(
+        """Ваше обращение принято. Ожидайте ответ в личных сообщениях.""",
+        reply_markup=ForceReply(selective=True),
+    )
+    
+    
+async def reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
     await update.message.forward(chat_id="-1002465099839")
 
