@@ -20,7 +20,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
     await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
+        rf"""Здравствуйте,  {user.mention_html()}! \n Здесь вы можете написать администрации СНТ9 по
+        любому интересующему Вас вопросу. Ответ будет дан в личных сообщениях в течении суток. (пн-пт с 9 до 18)""",
         reply_markup=ForceReply(selective=True),
     )
 
