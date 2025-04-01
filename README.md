@@ -1,61 +1,134 @@
-<div align="center">
-  <a href="https://dockhost.ru">
-    <img src="https://upload.dockhost.ru/images/logo/favicon-cube.svg" alt="Logo" width="80" height="80">
-  </a>
-  <h3 align="center">Dockhost</h3>
-  <p align="center">
-    Пример запуска приложения python-telegram-bot на платформе Dockhost
-    <br />
-    <a href="https://dockhost.ru">Узнать больше</a>
-    ·
-    <a href="https://docs.dockhost.ru">Документация и инструкции</a>
-  </p>
-</div>
+# telegram-feedback-bot
 
-## О Dockhost и примере приложения python-telegram-bot
+<p>
+<a href="https://artifacthub.io/packages/helm/telegram-feedback-bot/telegram-feedback-bot"><img alt="telegram-feedback-bot" src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&labelColor=0F1689"></a>
+<a href="https://hub.docker.com/r/bral1488/telegram-feedback-bot"><img alt="telegram-feedback-bot" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"></a>
+</p>
 
-Dockhost - это бессерверная платформа для развёртывания приложений на основе Docker-контейнеров.
 
-Этот пример приложения предназначен для демонстрации того, как приложение python-telegram-bot может быть развёрнуто на Dockhost при помощи Push-to-Deploy.
+Simple telegram-feedback bot based on [aiogram](https://github.com/aiogram/aiogram) and [sulguk](https://github.com/Tishka17/sulguk).
 
-## Требования
+Use this bot for communicate with users in case you do not want to provide your personal contacts. 
 
-Для развёртывания и запуска этого приложения вам потребуется учётная запись Dockhost.
-Если у вас ещё нет учётной записи, вы можете бесплатно зарегистрироваться [здесь](https://account.dockhost.ru/auth/registration?redirect=console).
+> For example: you are administrator of telegram group or technical support provider.
 
-## Развёртывание
+## Available commands
 
-Выполните одно из следующих действий, чтобы развернуть и запустить приложение python-telegram-bot на Dockhost.
+| Command |    Description    |
+|:-------:|:-----------------:|
+|  /help  | Show help message |
 
-### Развёртывание через веб-интерфейс
+## Usage
 
-1. В панели управления [Dockhost](https://my.dockhost.ru) выберите проект, в который хотите выполнить развёртывание примера.
-2. В разделе проекта «Обзор» в меню «⋮» выберите пункт «Загрузить конфигурацию», или перейдите в раздел «Конфигурация» / «Файл конфигурации» и в меню «⋮» выберите пункт «Загрузить конфигурацию».
-3. В открывшемся модальном окне укажите адрес: https://raw.githubusercontent.com/dockhost/example-python-telegram-bot/main/dockhost.yaml
-4. Нажмите на кнопку «Загрузить» и дождитесь выполнения результата.
+Messages with an **available content type** *(TEXT, ANIMATION, AUDIO, DOCUMENT, PHOTO, VIDEO, VOICE)* will be transferred to **admin group** or **admin chat**.
 
-### Развёртывание через Dockhost CLI
+*(See variable `chat_id` from [config.yaml](deploy/docker/example.config.yaml#L6))*
 
-Вы можете воспользоваться консольной утилитой [Dockhost CLI](https://docs.dockhost.ru/cli) для
-быстрого развёртывания данного примера через dockhost.yaml файл. Для этого в терминале выполните следующую команду:
+If the transfer is successful, the requesting party will be notified.
 
-```shell
-dockhost compose apply https://raw.githubusercontent.com/dockhost/example-python-telegram-bot/main/dockhost.yaml
-```
+**Admin** can **answer** to message **by reply**. The answer will be sent to the person who asked.
 
-### Форк и подключение репозитория
+The user will receive the reply as a **reply** to the original message. If the message does not exist, the user will receive a response with a **separate message**.
 
-Вы можете сделать свой форк данного приложения, настроить или улучшить его.
-Воспользуйтесь следующей инструкцией, чтобы развернуть свой форк приложения на Dockhost.
+If the transfer is successful, the administrator will be notified.
 
-1. В панели управления [Dockhost](https://my.dockhost.ru) выберите проект, в который хотите подключить репозиторий.
-2. Перейдите в раздел «Репозитории» и нажмите на кнопку «Добавить».
-3. В открывшемся модальном окне в качестве адреса укажите репозиторий, который вы только что форкнули.
-4. Введите название, например «python-telegram-bot», и нажмите на кнопку «Применить».
-5. После того как завершится первая сборка приложения, перейдите в раздел «Контейнеры»
+You can [customize the bot's responses](deploy/docker/example.config.yaml#12), or use default values.
 
-## Поддержка
+## Deploy
 
-Если у вас есть какие-либо вопросы, идеи или предложения относительно этого примера приложения,
-вы можете написать в службу поддержки [support@dockhost.ru](mailto:support@dockhost.ru) или
-отправить [pull request](https://github.com/dockhost/example-python-telegram-bot/pulls).
+### Install from source
+
+> Tested on Ubuntu 22.04, python 3.11
+
+Just copy source code:
+
+`git clone https://github.com/bralbral/telegram-feedback-bot.git`
+
+Install requirements:
+
+`pip install -r requirements.txt`
+
+Fill [config.yml](deploy/docker/example.config.yaml) and place it to root dir. (In parent dir to `src`)
+
+Run:
+
+`python3 -m src`
+
+### Install with Docker
+
+> Stable release with `main` tag on [dockerhub](https://hub.docker.com/r/bral1488/telegram-feedback-bot/tags)
+
+Just copy [docker-compose.yml](deploy/docker/example.docker-compose.yml) and fill in  [config.yaml](deploy/docker/example.config.yaml).
+
+Run containers:
+
+`docker-compose up -d` or if you have new docker `docker compose up -d`
+
+Of course, you can build image yourself:
+
+Just copy source code:
+
+`git clone https://github.com/bralbral/telegram-feedback-bot.git`
+
+and build docker image:
+
+`docker build -t <your_image_name>:<your_tag_name>`
+
+### Install with k8s
+
+> Stable release with `main` tag on [dockerhub](https://hub.docker.com/r/bral1488/telegram-youtube-notifier/tags)
+
+Manifests located in [k8s](deploy%2Fk8s) directory.
+
+It consists of `Namespace`, `ConfigMap`, and `Deployment` files.
+
+You need fill sections in  [01_configmap.yaml](deploy%2Fk8s%2F01_configmap.yaml) file.
+
+Apply deployment:
+
+`kubectl apply -f <directory with configs>`
+
+Or you can do it step by step:
+
+`kubectl apply -f <file from config dir>`
+
+#### Install with Helm Chart
+
+[Helm repo](https://artifacthub.io/packages/helm/telegram-feedback-bot/telegram-feedback-bot)
+
+Add repo:
+
+`helm repo add telegram-feedback-bot https://bralbral.github.io/helm/releases/telegram-feedback-bot`
+
+Install chart:
+
+`helm install my-telegram-feedback-bot telegram-feedback-bot/telegram-feedback-bot --version 0.1.0`
+
+
+
+## Hosting
+You can rent a server from various hosters, for example from [Aeza](https://aeza.net/?ref=380831).
+
+>*By registering via the [link](https://aeza.net/?ref=380831) you will support the project and receive a 15% bonus on your balance, which will be valid for 24 hours.*
+
+The bot will require the simplest VDS, in rubles this is approximately 100-200 for promotional offers, or about 500 rubles per month.
+
+## Develop and Contribute
+
+Feel free to create issue or pull request.
+
+For development, you should install the requirements from [requirements_dev.txt](./requirements_dev.txt)
+
+`pip install -r requirements_dev.txt`
+
+Use [pre-commit.sh](./pre-commit.sh) before commit.
+
+---
+### Donations
+
+If you would like to make a donation, you can use the following wallets:
+
+- **USDT(TON):** UQCFEQGkaAzZPNfKEFn4ENfvCMLR2w_04TB16NrkaaDBRudu
+- **TON:** UQCFEQGkaAzZPNfKEFn4ENfvCMLR2w_04TB16NrkaaDBRudu
+
+Thank you for considering supporting my work! Your contributions are greatly appreciated and help me continue to improve this project.

@@ -1,0 +1,6 @@
+pre-commit==4.1.0
+black==25.1.0
+autoflake==2.3.1
+reorder-python-imports==3.14.0
+pyupgrade==3.19.1
+git+https://github.com/aio-libs/sort-all.git

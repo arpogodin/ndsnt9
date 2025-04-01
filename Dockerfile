@@ -1,14 +1,17 @@
-FROM python:3.9
-
-ENV PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=on
+FROM python:3.11-alpine
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
+# Copy the application source code to the container
+COPY ./requirements.txt /app/requirements.txt
+COPY ./src /app/src
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+# Update the package list, install required packages, and install Python dependencies
+RUN apk update && \
+    apk add --no-cache git && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    rm -rf /var/cache/apk/*
 
-COPY . /app
-
-CMD ["python", "main.py"]
+# Set the user to non-root
+USER 1000
