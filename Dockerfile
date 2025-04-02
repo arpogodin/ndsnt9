@@ -5,6 +5,7 @@ WORKDIR /app
 # Copy the application source code to the container
 COPY ./requirements.txt /app/requirements.txt
 COPY ./src /app/src
+COPY ./config.yaml
 
 # Update the package list, install required packages, and install Python dependencies
 RUN apk update && \
