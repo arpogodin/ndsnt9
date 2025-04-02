@@ -15,3 +15,5 @@ RUN apk update && \
 
 # Set the user to non-root
 USER 1000
+
+CMD ["python3", "-m", "src"]
