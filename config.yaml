@@ -3,7 +3,7 @@ bot:
   token: 7609365027:AAFlxoETy1_JB4TXxcgWeaLOPtEMfNZkxb0
 
 # chat id for redirect messages
-chat_id: -1002357907259
+chat_id: -1002635732349
 
 # Fill variables below as you want, or use default values.
 # You can use HTML tags provided by the sulguk package.
